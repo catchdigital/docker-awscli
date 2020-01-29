@@ -1,4 +1,4 @@
-FROM php:7.2-fpm-alpine
+FROM php:7.3-fpm-alpine
 
 MAINTAINER Alberto Conteras <a.contreras@catchdigital.com>
 
@@ -17,7 +17,8 @@ RUN apk update \
     shadow \
     patch \
     zip \
-    zlib-dev
+    zlib-dev \
+    libzip-dev
 
 # Install GD and other dependencies
 RUN apk add --no-cache freetype libpng libjpeg-turbo freetype-dev libpng-dev libjpeg-turbo-dev && \
