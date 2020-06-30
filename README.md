@@ -9,10 +9,11 @@ This image is based on php 7.3.14 FPM over Alpine linux
 Set of tools to run for building several kind of projects.
 
 Tools in this image:
-* aws cli: 2.0.7
-* eb: 3.17.1
-* php: 7.4.4-fpm
-* node: v12.16.1
-* npm: 6.13.4
-* composer: 1.10.1
-* python: 2.7.16
+* aws cli: 2.0.26
+* aws cdk: 1.47.1a
+* eb: 3.18.1
+* php: 7.4.7-fpm
+* node: v12.18.1
+* npm: 6.14.5
+* composer: 1.10.8
+* python: 2.7.16 / 3.7.3
