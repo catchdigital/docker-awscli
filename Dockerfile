@@ -2,9 +2,9 @@ FROM php:7.4-fpm
 
 MAINTAINER Alberto Conteras <a.contreras@catchdigital.com>
 
-# Install dependencies
-RUN apt update \
-    && apt install -y \
+## Install dependencies
+RUN apt-get update \
+    && apt-get install -y \
     less \
     groff \
     jq \
@@ -19,7 +19,7 @@ RUN apt update \
     gnupg2
 
 # Install GD and other dependencies
-RUN apt install -y \
+RUN apt-get install -y \
         libjpeg-dev \
         libpng-dev \
         libjpeg62-turbo \
@@ -29,8 +29,13 @@ RUN apt install -y \
     --with-jpeg=/usr/include/ && \
   NPROC=$(grep -c ^processor /proc/cpuinfo 2>/dev/null || 1) && \
   docker-php-ext-install -j${NPROC} gd zip && \
-  apt remove -y libfreetype6-dev libpng-dev libfreetype6-dev
+  apt-get remove -y libfreetype6-dev libpng-dev libfreetype6-dev
 
+# Install node and npm
+RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
+    apt-get -y install nodejs
+
+## Install tools
 # Install aws cli v2
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
     unzip awscliv2.zip && \
@@ -39,17 +44,15 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2
 # Install aws eb cli
 RUN pip3 install --upgrade pip awsebcli
 
+# Install aws cdk
+RUN npm install -g aws-cdk
+
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 ENV COMPOSER_HOME '/usr/composer'
 
-# Install node and npm
-RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
-    apt -y install nodejs
-
 # Clean up installations
-RUN apt -y autoremove && apt -y clean
-
+RUN apt-get -y autoremove && apt-get -y clean
 
 # Set directory and working permissions
 WORKDIR /var/www
