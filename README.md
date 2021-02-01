@@ -10,7 +10,8 @@ Set of tools to run for building several kind of projects.
 
 Tools in this image:
 * aws cli: 2.1.0
-* aws cdk: 1.73.0
+* aws cdk: 1.87.1
+* aws amplicy: 4.41.2
 * eb: 3.19.2
 * php: 7.4.12-fpm
 * node: v12.19.0
