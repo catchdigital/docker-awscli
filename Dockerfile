@@ -44,8 +44,8 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2
 # Install aws eb cli
 RUN pip3 install --upgrade pip awsebcli
 
-# Install aws cdk
-RUN npm install -g aws-cdk
+# Install aws cdk and aws amplify cli
+RUN npm install -g aws-cdk @aws-amplify/cli
 
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
