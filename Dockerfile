@@ -31,6 +31,9 @@ RUN apt-get install -y \
   docker-php-ext-install -j${NPROC} gd zip && \
   apt-get remove -y libfreetype6-dev libpng-dev libfreetype6-dev
 
+# Install BCMath
+RUN docker-php-ext-install bcmath
+
 # Install node and npm
 RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
     apt-get -y install nodejs
