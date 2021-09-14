@@ -4,8 +4,6 @@ on:
   push:
     branch:
       - master
-    tags:
-      - '*'
 
 jobs:
   build:
