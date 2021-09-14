@@ -35,8 +35,8 @@ RUN apt-get install -y \
 RUN docker-php-ext-install bcmath
 
 # Install node and npm
-RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
-    apt-get -y install nodejs
+RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - && \
+    apt-get -y install nodejs && npm install -g npm@latest
 
 ## Install tools
 # Install aws cli v2
@@ -62,6 +62,6 @@ WORKDIR /var/www
 ENV PATH=/var/www/vendor/bin:${PATH}
 
 # Set www-data user
-RUN usermod -u 1000 www-data
-RUN usermod -g users www-data
-RUN chown -R www-data:www-data /var/www
+RUN usermod -u 1000 www-data && \
+    usermod -g users www-data && \
+    chown -R www-data:www-data /var/www
