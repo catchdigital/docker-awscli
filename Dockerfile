@@ -1,4 +1,4 @@
-FROM php:8.0-fpm
+FROM php:7.4-fpm
 
 MAINTAINER Alberto Conteras <a.contreras@catchdigital.com>
 
@@ -33,6 +33,12 @@ RUN apt-get install -y \
 
 # Install BCMath
 RUN docker-php-ext-install bcmath
+
+# Install Intl
+RUN apt-get install -y libicu-dev \
+    && docker-php-ext-configure intl \
+    && docker-php-ext-install intl \
+    && apt-get remove -y libicu-dev
 
 # Install node and npm
 RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - && \
