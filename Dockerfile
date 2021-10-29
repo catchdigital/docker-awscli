@@ -23,9 +23,18 @@ RUN apt-get update \
     ssh \
     python3 \
     python3-pip \
+    python-is-python3 \
     zip \
     libzip-dev \
-    gnupg2
+    gnupg2 \
+    build-essential \
+    zlib1g-dev \
+    libssl-dev \
+    libncurses-dev \
+    libffi-dev \
+    libsqlite3-dev \
+    libreadline-dev \
+    libbz2-dev
 
 # Install GD and other dependencies
 RUN apt-get install -y \
@@ -63,11 +72,13 @@ esac
 RUN unzip awscliv2.zip && \
     ./aws/install
 
-# Clean up aws files.
-RUN rm -Rf awscliv2.zip aws
-
 # Install aws eb cli
-RUN pip3 install --upgrade pip awsebcli
+RUN git clone https://github.com/aws/aws-elastic-beanstalk-cli-setup.git && \
+    ./aws-elastic-beanstalk-cli-setup/scripts/bundled_installer && \
+    ln -s /root/.ebcli-virtual-env/executables/eb /usr/local/bin/eb
+
+# Clean up aws files.
+RUN rm -Rf awscliv2.zip aws aws-elastic-beanstalk-cli-setup
 
 # Install aws cdk and aws amplify cli
 RUN npm install -g aws-cdk @aws-amplify/cli
