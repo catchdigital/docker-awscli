@@ -1,6 +1,15 @@
 FROM php:8.0-fpm
-
 MAINTAINER Alberto Conteras <a.contreras@catchdigital.com>
+
+# Get build target.
+ARG TARGETPLATFORM
+
+# Supported architectures.
+RUN case $TARGETPLATFORM in \
+  linux/amd64) ARCH='x86_64';; \
+  linux/arm64) ARCH='aarch64';; \
+  *) echo "unsupported architecture"; exit 1 ;; \
+esac
 
 ## Install dependencies
 RUN apt-get update \
@@ -40,9 +49,22 @@ RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - && \
 
 ## Install tools
 # Install aws cli v2
-RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
-    unzip awscliv2.zip && \
+RUN case $TARGETPLATFORM in \
+  linux/amd64) \
+    curl https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip -o awscliv2.zip \
+    ;; \
+  linux/arm64) \
+    curl https://awscli.amazonaws.com/awscli-exe-linux-aarch64.zip -o awscliv2.zip \
+    ;; \
+  *) \
+    echo "unsupported architecture"; exit 1 ;; \
+esac
+
+RUN unzip awscliv2.zip && \
     ./aws/install
+
+# Clean up aws files.
+RUN rm -Rf awscliv2.zip aws
 
 # Install aws eb cli
 RUN pip3 install --upgrade pip awsebcli
@@ -63,5 +85,5 @@ ENV PATH=/var/www/vendor/bin:${PATH}
 
 # Set www-data user
 RUN usermod -u 1000 www-data && \
-    usermod -g users www-data && \
-    chown -R www-data:www-data /var/www
+   usermod -g users www-data && \
+   chown -R www-data:www-data /var/www
