@@ -21,6 +21,7 @@ RUN apt-get update \
     curl \
     rsync \
     ssh \
+    python \
     python3 \
     python3-pip \
     zip \
@@ -64,7 +65,9 @@ RUN unzip awscliv2.zip && \
     ./aws/install
 
 # Install aws eb cli
-RUN pip install awsebcli --upgrade --user
+# TODO: Adding 'LIBSODIUM_MAKE_ARGS=-j4' might speed up the install of pynacl
+RUN LIBSODIUM_MAKE_ARGS=-j4 pip install awsebcli --upgrade --user
+# RUN pip install awsebcli --upgrade --user
 
 # Clean up aws files.
 RUN rm -Rf awscliv2.zip aws
