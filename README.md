@@ -1,5 +1,7 @@
 # docker-awscli
 
+IMPORTANT: This image has been deprecated in favour of catchdigital/toolbox (github: catchdigital/docker-toolbox), which includes more tools for deployments and it doesn't rely only on aws cli scripts.
+
 Basic image to use for builds.
 
 This image is based on php 8.0-fpm
